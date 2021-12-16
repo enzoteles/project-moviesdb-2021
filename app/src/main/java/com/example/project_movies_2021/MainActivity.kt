@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
-
+        setContentView(binding.root)
 
         binding.btnOk.setOnClickListener {
             callPopularMovies()
@@ -30,12 +30,10 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        setContentView(binding.root)
+
     }
 
     private fun callPopularMovies(){
-        GlobalScope.launch {
-            mainViewModel.getPopularMovies()
-        }
+        mainViewModel.getPopularMovies()
     }
 }

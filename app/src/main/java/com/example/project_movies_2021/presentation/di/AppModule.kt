@@ -2,7 +2,7 @@ package com.example.project_movies_2021.presentation.di
 
 import com.example.project_movies_2021.data.datasource.MoviesAPI
 import com.example.project_movies_2021.presentation.MainViewModel
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -31,7 +31,7 @@ val retrofitModule = module {
             .client(get())
             .baseUrl(MoviesAPI.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(CoroutineCallAdapterFactory())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
     }
 }
