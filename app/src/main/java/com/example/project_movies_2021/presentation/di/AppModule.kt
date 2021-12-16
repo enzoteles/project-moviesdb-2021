@@ -1,6 +1,8 @@
 package com.example.project_movies_2021.presentation.di
 
 import com.example.project_movies_2021.data.datasource.MoviesAPI
+import com.example.project_movies_2021.data.repository.MoviesPopularRepositoryImpl
+import com.example.project_movies_2021.domain.repository.MoviesPopularRepository
 import com.example.project_movies_2021.presentation.MainViewModel
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import okhttp3.Interceptor
@@ -42,10 +44,21 @@ val apiModule = module {
     }
 }
 
-val viewModuleModule = module {
+val moviesPopularModule = module {
+
+    //inject interface
+    single<MoviesPopularRepository>{
+        MoviesPopularRepositoryImpl(
+            api = get()
+        )
+    }
+
     viewModel {
         MainViewModel(
-          api = get()
+          repository = get()
         )
     }
 }
+
+
+

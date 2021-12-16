@@ -3,37 +3,29 @@ package com.example.project_movies_2021
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.add
+import androidx.fragment.app.commit
+import com.example.project_movies_2021.commons.ApiResponse
 import com.example.project_movies_2021.databinding.ActivityMainBinding
 import com.example.project_movies_2021.presentation.MainViewModel
+import com.example.project_movies_2021.presentation.ui.fragment.MainFragment
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
-    private lateinit var binding: ActivityMainBinding
     private val mainViewModel: MainViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        binding.btnOk.setOnClickListener {
-            callPopularMovies()
-        }
-
-        mainViewModel.popularMovies.observe(this,{ popularMovies ->
-            popularMovies.forEach {
-                Log.i("PopularMovie", it.title)
+        if (savedInstanceState == null) {
+            supportFragmentManager.commit {
+                setReorderingAllowed(true)
+                add<MainFragment>(R.id.fragment_container_view)
             }
-        })
-
-
+        }
     }
 
-    private fun callPopularMovies(){
-        mainViewModel.getPopularMovies()
-    }
 }
