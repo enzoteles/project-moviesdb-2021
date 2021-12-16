@@ -1,61 +1,37 @@
-*.iml
-.gradle
-/local.properties
-.idea
-.DS_Store
-/apks
-/build
-/captures
-app/fabric.properties
-.externalNativeBuild
-*.keystore
-.idea/*.*
-.idea/*
-keys/*
-/app/store.DS_Store
-.DS_Store?
-app/mappings.txt
-scripts/
-/libflue/build/*
-/app/mapping.txt
+# Built application files
+/*/build/
 
-
-*.apk
-*.ap_
-*.aab
-
-*.dex
-
-.cxx/
-
+# Crashlytics configuations
 com_crashlytics_export_strings.xml
-crashlytics.properties
-crashlytics-build.properties
-fabric.properties
 
-!/gradle/wrapper/gradle-wrapper.jar
+# Local configuration file (sdk path, etc)
+local.properties
 
-atlassian-ide-plugin.xml
+# Gradle generated files
+.gradle/
 
-.mtj.tmp/
-
-.classpath
-.project
-.cproject
-.settings/
-
-hs_err_pid*
-
-obj/
-
-*.ipr
-*~
-*.swp
-
+# Signing files
 .signing/
+
+# User-specific configurations
+.idea/libraries/
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/.name
+.idea/compiler.xml
+.idea/copyright/profiles_settings.xml
+.idea/encodings.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/scopes/scope_settings.xml
+.idea/vcs.xml
+*.iml
+
+# OS-specific files
+.DS_Store
+.DS_Store?
 ._*
 .Spotlight-V100
 .Trashes
 ehthumbs.db
 Thumbs.db
-/release_notes_prd.txt
