@@ -36,6 +36,9 @@ class MainViewModel(
         repository.getPopularMovies(MoviesAPI.API_KEY)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
+            .doOnSubscribe {
+                _popularMovies.value = ApiResponse.Loading
+            }
             .subscribe({ response ->
                 _popularMovies.value = ApiResponse.Success(
                     data = response.results.map { it.toResultMapper() }

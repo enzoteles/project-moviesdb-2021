@@ -10,7 +10,7 @@ import androidx.viewbinding.ViewBinding
 
 abstract class BaseFragment <VM: ViewModel, B: ViewBinding>: Fragment(){
 
-    protected lateinit var binding: B
+    protected var binding: B ?= null
     protected lateinit var model: VM
 
     override fun onCreateView(
@@ -20,7 +20,7 @@ abstract class BaseFragment <VM: ViewModel, B: ViewBinding>: Fragment(){
     ): View? {
         binding = getFragmentBinding(inflater, container)
         model = getViewModel()
-        return binding.root
+        return binding?.root
     }
 
     abstract fun getViewModel() : VM
