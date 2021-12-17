@@ -11,7 +11,7 @@ import androidx.viewbinding.ViewBinding
 abstract class BaseFragment <VM: ViewModel, B: ViewBinding>: Fragment(){
 
     protected var binding: B ?= null
-    protected lateinit var model: VM
+    protected lateinit var vModel: VM
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -19,7 +19,7 @@ abstract class BaseFragment <VM: ViewModel, B: ViewBinding>: Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         binding = getFragmentBinding(inflater, container)
-        model = getViewModel()
+        vModel = getViewModel()
         return binding?.root
     }
 

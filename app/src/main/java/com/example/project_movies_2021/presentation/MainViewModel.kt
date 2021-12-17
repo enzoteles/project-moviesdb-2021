@@ -8,14 +8,15 @@ import com.example.project_movies_2021.commons.ApiResponse
 import com.example.project_movies_2021.commons.convertErrorApi
 import com.example.project_movies_2021.data.datasource.MoviesAPI
 import com.example.project_movies_2021.domain.model.ResultMapper
-import com.example.project_movies_2021.domain.repository.MoviesPopularRepository
-import io.reactivex.android.schedulers.AndroidSchedulers
+import com.example.project_movies_2021.domain.usecase.MoviesPopularUseCase
+import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 
 
 class MainViewModel(
-    private val repository: MoviesPopularRepository
+    private val moviesPopularUseCase: MoviesPopularUseCase,
+    private val uiScheduler: Scheduler,
+    private val ioScheduler: Scheduler
 ) : ViewModel() {
 
     private val _popularMovies = MutableLiveData<ApiResponse<List<ResultMapper>>>()
@@ -28,9 +29,9 @@ class MainViewModel(
     fun getPopularMovies() {
 
         ApiResponse.Loading
-        repository.getPopularMovies(MoviesAPI.API_KEY)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
+        moviesPopularUseCase.invoke(MoviesAPI.API_KEY)
+            .observeOn(uiScheduler)
+            .subscribeOn(ioScheduler)
             .doOnSubscribe {
                 _popularMovies.value = ApiResponse.Loading
             }

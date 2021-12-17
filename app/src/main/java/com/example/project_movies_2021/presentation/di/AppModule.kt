@@ -3,8 +3,12 @@ package com.example.project_movies_2021.presentation.di
 import com.example.project_movies_2021.data.datasource.MoviesAPI
 import com.example.project_movies_2021.data.repository.MoviesPopularRepositoryImpl
 import com.example.project_movies_2021.domain.repository.MoviesPopularRepository
+import com.example.project_movies_2021.domain.usecase.MoviesPopularUseCase
+import com.example.project_movies_2021.domain.usecase.MoviesPopularUseCaseImpl
 import com.example.project_movies_2021.presentation.MainViewModel
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -46,16 +50,26 @@ val apiModule = module {
 
 val moviesPopularModule = module {
 
-    //inject interface
+    //inject repository
     single<MoviesPopularRepository>{
         MoviesPopularRepositoryImpl(
             api = get()
         )
     }
 
+    //inject useCase
+    single<MoviesPopularUseCase>{
+        MoviesPopularUseCaseImpl(
+            repository = get()
+        )
+    }
+
+    //viewModel
     viewModel {
         MainViewModel(
-          repository = get()
+          moviesPopularUseCase = get(),
+            AndroidSchedulers.mainThread(),
+            Schedulers.io()
         )
     }
 }

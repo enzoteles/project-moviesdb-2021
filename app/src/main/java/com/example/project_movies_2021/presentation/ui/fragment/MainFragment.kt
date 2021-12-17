@@ -33,7 +33,7 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>(){
 
         callPopularMovies()
 
-        model.popularMovies.observe(this,{ response ->
+        vModel.popularMovies.observe(this,{ response ->
             when(response){
                 is ApiResponse.Loading->{
                         displayedChild(0, binding!!.vfMain)
@@ -65,17 +65,17 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>(){
 
 
     private fun callPopularMovies(){
-        model.getPopularMovies()
+        vModel.getPopularMovies()
     }
 
     override fun onResume() {
         super.onResume()
-        model.start()
+        vModel.start()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        model.destroy()
+        vModel.destroy()
         binding = null
     }
 
