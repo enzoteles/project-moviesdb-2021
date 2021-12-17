@@ -5,7 +5,7 @@ import com.example.project_movies_2021.data.repository.MoviesPopularRepositoryIm
 import com.example.project_movies_2021.domain.repository.MoviesPopularRepository
 import com.example.project_movies_2021.domain.usecase.MoviesPopularUseCase
 import com.example.project_movies_2021.domain.usecase.MoviesPopularUseCaseImpl
-import com.example.project_movies_2021.presentation.MainViewModel
+import com.example.project_movies_2021.presentation.ui.viewmodel.MainViewModel
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

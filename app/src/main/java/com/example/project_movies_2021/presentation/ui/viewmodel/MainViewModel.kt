@@ -1,4 +1,4 @@
-package com.example.project_movies_2021.presentation
+package com.example.project_movies_2021.presentation.ui.viewmodel
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData

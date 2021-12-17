@@ -10,8 +10,8 @@ import com.example.project_movies_2021.commons.ErrorMessage
 import com.example.project_movies_2021.commons.displayedChild
 import com.example.project_movies_2021.databinding.FragmentMainBinding
 import com.example.project_movies_2021.domain.model.ResultMapper
-import com.example.project_movies_2021.presentation.MainViewModel
-import com.example.project_movies_2021.presentation.base.BaseFragment
+import com.example.project_movies_2021.presentation.ui.viewmodel.MainViewModel
+import com.example.project_movies_2021.presentation.ui.base.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 

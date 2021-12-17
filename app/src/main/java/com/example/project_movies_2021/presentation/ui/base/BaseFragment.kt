@@ -1,4 +1,4 @@
-package com.example.project_movies_2021.presentation.base
+package com.example.project_movies_2021.presentation.ui.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
