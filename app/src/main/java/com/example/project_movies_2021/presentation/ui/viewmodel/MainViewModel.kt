@@ -5,11 +5,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.project_movies_2021.commons.ApiResponse
+import com.example.project_movies_2021.commons.convertErrorApi
 import com.example.project_movies_2021.data.datasource.MoviesAPI
 import com.example.project_movies_2021.domain.model.ResultMapper
 import com.example.project_movies_2021.domain.usecase.MoviesPopularUseCase
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
 
 
 class MainViewModel(
@@ -27,7 +29,6 @@ class MainViewModel(
     @SuppressLint("CheckResult")
     fun getPopularMovies() {
 
-        ApiResponse.Loading
         moviesPopularUseCase.invoke(MoviesAPI.API_KEY)
             .observeOn(uiScheduler)
             .subscribeOn(ioScheduler)
@@ -40,9 +41,9 @@ class MainViewModel(
                 )
             }, { error ->
                 _popularMovies.value = ApiResponse.Failure(
-                    errorMessage = com.example.project_movies_2021.commons.convertErrorApi(error)
+                    errorMessage = convertErrorApi(error)
                 )
-            })
+            }).addTo(disposable)
     }
 
     fun start() {
