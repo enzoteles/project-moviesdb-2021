@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.project_movies_2021.commons.ApiResponse
+import com.example.project_movies_2021.commons.ErrorMessage
 import com.example.project_movies_2021.commons.displayedChild
 import com.example.project_movies_2021.databinding.FragmentMainBinding
 import com.example.project_movies_2021.domain.model.ResultMapper
@@ -44,10 +45,18 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>(){
                     }, 1000)
                 }
                 is ApiResponse.Failure->{
-                    displayedChild(2, binding!!.vfMain)
+                    Handler().postDelayed({
+                        displayedChild(2, binding!!.vfMain)
+                        showError(response.errorMessage)
+                    }, 1000)
+
                 }
             }
         })
+    }
+
+    private fun showError(errorMessage: ErrorMessage) {
+        binding?.tvError?.text = errorMessage.message
     }
 
     private fun populateMovie(data: List<ResultMapper>) {
