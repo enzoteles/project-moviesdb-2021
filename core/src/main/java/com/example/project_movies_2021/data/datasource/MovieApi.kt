@@ -2,7 +2,6 @@ package com.example.project_movies_2021.data.datasource
 
 import com.example.project_movies_2021.data.remote.MoviesPopularResponse
 import io.reactivex.Observable
-import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 

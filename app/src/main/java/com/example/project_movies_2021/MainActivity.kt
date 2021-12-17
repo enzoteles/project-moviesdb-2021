@@ -2,10 +2,8 @@ package com.example.project_movies_2021
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
-import com.example.project_movies_2021.commons.ApiResponse
 import com.example.project_movies_2021.databinding.ActivityMainBinding
 import com.example.project_movies_2021.presentation.MainViewModel
 import com.example.project_movies_2021.presentation.ui.fragment.MainFragment

@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.project_movies_2021.commons.ApiResponse
-import com.example.project_movies_2021.commons.convertErrorApi
 import com.example.project_movies_2021.data.datasource.MoviesAPI
 import com.example.project_movies_2021.domain.model.ResultMapper
 import com.example.project_movies_2021.domain.usecase.MoviesPopularUseCase
@@ -41,7 +40,7 @@ class MainViewModel(
                 )
             }, { error ->
                 _popularMovies.value = ApiResponse.Failure(
-                    errorMessage = convertErrorApi(error)
+                    errorMessage = com.example.project_movies_2021.commons.convertErrorApi(error)
                 )
             })
     }

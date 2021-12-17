@@ -10,7 +10,7 @@ fun Fragment.displayedChild(value: Int, vf: ViewFlipper) {
     vf.displayedChild = value
 }
 
-fun convertErrorApi(error: Throwable): ErrorMessage{
+fun convertErrorApi(error: Throwable): ErrorMessage {
     if(error is HttpException){
         try {
             return ErrorMessage(error.code(), error.message.toString())
