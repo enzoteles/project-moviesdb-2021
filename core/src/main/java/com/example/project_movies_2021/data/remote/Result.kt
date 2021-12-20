@@ -26,7 +26,8 @@ data class Result(
         title = title,
         overview = overview,
         release_date = DateTimeHelper.convertToDate(release_date, "yyyy-MM-dd", "dd/MM/yyyy"),
-        vote_average = "R$ "+ vote_average.toPtBrRealString()
-
+        vote_average = "R$ "+ vote_average.toPtBrRealString(),
+        poster_path = poster_path,
+        backdrop_path = backdrop_path
     )
 }

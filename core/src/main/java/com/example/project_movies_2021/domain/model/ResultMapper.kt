@@ -8,5 +8,7 @@ data class ResultMapper(
     val overview: String,
     val release_date: String,
     val original_language: String,
-    val vote_average: String
+    val vote_average: String,
+    val poster_path: String,
+    val backdrop_path: String
 ): Serializable

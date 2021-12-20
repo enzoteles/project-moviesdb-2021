@@ -38,8 +38,7 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        callPopularMovies()
-
+        vModel.getPopularMovies()
         vModel.popularMovies.observe(this,{ response ->
             when(response){
                 is ApiResponse.Loading->{
@@ -60,16 +59,16 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>(){
         })
     }
 
-    fun showLoading() {
+    private fun showLoading() {
         displayedChild(0, binding!!.vfMain)
     }
 
-    fun showError(errorMessage: ErrorMessage) {
+    private fun showError(errorMessage: ErrorMessage) {
         displayedChild(2, binding!!.vfMain)
         binding?.tvError?.text = errorMessage.message
     }
 
-    fun populateMovie(data: List<ResultMapper>) {
+    private fun populateMovie(data: List<ResultMapper>) {
 
 
         displayedChild(1, binding!!.vfMain)
@@ -87,17 +86,11 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>(){
 
         adapter.onItemClickListener = object : DefaultViewListAdapter.OnItemClickListener<ResultMapper> {
             override fun onItemClick(item: ResultMapper) {
-                findNavController().navigate(MainFragmentDirections
-                    .actionMainFragmentToDetailFragment(item))
+                findNavController().navigate(MainFragmentDirections.actionMainFragmentToDetailFragment(item))
             }
         }
         binding?.rvMoviePopular?.adapter = adapter
 
-    }
-
-
-    private fun callPopularMovies(){
-        vModel.getPopularMovies()
     }
 
     override fun onResume() {
