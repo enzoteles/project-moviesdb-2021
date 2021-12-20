@@ -42,7 +42,7 @@ class MoviesPopularUseCaseImplTest {
     private lateinit var response: MoviesPopularResponse
 
     @Before
-    fun before() {
+    fun setup() {
         MockitoAnnotations.initMocks(this)
         viewModel = MainViewModel(moviesUseCase, uiScheduler, ioScheduler)
         viewModel.popularMovies.observeForever(observer)
