@@ -5,11 +5,16 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.project_movies_2021.R
 import com.example.project_movies_2021.commons.ApiResponse
 import com.example.project_movies_2021.commons.ErrorMessage
 import com.example.project_movies_2021.commons.displayedChild
 import com.example.project_movies_2021.databinding.FragmentMainBinding
 import com.example.project_movies_2021.domain.model.ResultMapper
+import com.example.project_movies_2021.presentation.component.DefaultViewHolderKotlin
+import com.example.project_movies_2021.presentation.component.DefaultViewListAdapter
 import com.example.project_movies_2021.presentation.ui.viewmodel.MainViewModel
 import com.example.project_movies_2021.presentation.ui.base.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -35,17 +40,15 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>(){
         vModel.popularMovies.observe(this,{ response ->
             when(response){
                 is ApiResponse.Loading->{
-                        displayedChild(0, binding!!.vfMain)
+                        showLoading()
                 }
                 is ApiResponse.Success->{
                     Handler().postDelayed({
-                        displayedChild(1, binding!!.vfMain)
-                        populateMovie(response.data)
+                        populateMovie(response.data.results.map { it.toResultMapper() })
                     }, 1000)
                 }
                 is ApiResponse.Failure->{
                     Handler().postDelayed({
-                        displayedChild(2, binding!!.vfMain)
                         showError(response.errorMessage)
                     }, 1000)
 
@@ -54,12 +57,35 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>(){
         })
     }
 
-    private fun showError(errorMessage: ErrorMessage) {
+    fun showLoading() {
+        displayedChild(0, binding!!.vfMain)
+    }
+
+    fun showError(errorMessage: ErrorMessage) {
+        displayedChild(2, binding!!.vfMain)
         binding?.tvError?.text = errorMessage.message
     }
 
-    private fun populateMovie(data: List<ResultMapper>) {
-        binding?.tvName?.text = data[1].title
+    fun populateMovie(data: List<ResultMapper>) {
+
+
+        displayedChild(1, binding!!.vfMain)
+
+
+        binding?.rvMoviePopular?.layoutManager = LinearLayoutManager(requireContext())
+        binding?.rvMoviePopular?.setHasFixedSize(true)
+        val adapter = DefaultViewListAdapter(data, R.layout.item_movie_popular)
+        adapter.setBindViewHolderCallback(object: DefaultViewListAdapter.OnBindViewHolder<ResultMapper> {
+            override fun onBind(item: ResultMapper, holder: DefaultViewHolderKotlin) {
+                holder.mView.findViewById<TextView>(R.id.tvTitle).text = item.title
+                holder.mView.findViewById<TextView>(R.id.tvSubtitle).text = item.overview
+            }
+        })
+
+        binding?.rvMoviePopular?.adapter = adapter
+
+
+
     }
 
 
