@@ -107,7 +107,7 @@ class MoviesPopularUseCaseImplTest {
     }
 
     @Test(expected = NullPointerException::class)
-    fun showErrorNullPointerException(){
+    fun `verify nullPointException error`(){
         val exception = NullPointerException()
         whenever(moviesUseCase.invoke(MoviesAPI.API_KEY)).thenThrow(exception)
         every { observer.onChanged(capture(slot)) } answers {
@@ -117,7 +117,7 @@ class MoviesPopularUseCaseImplTest {
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun showErrorIllegalArgumentException(){
+    fun `verify illegalArgumentException error`(){
         val exception = IllegalArgumentException()
         whenever(moviesUseCase.invoke(MoviesAPI.API_KEY)).thenThrow(exception)
         every { observer.onChanged(capture(slot)) } answers {
