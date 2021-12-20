@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.example.project_movies_2021.commons.ApiResponse
 import com.example.project_movies_2021.commons.convertErrorApi
 import com.example.project_movies_2021.data.datasource.MoviesAPI
+import com.example.project_movies_2021.data.remote.MoviesPopularResponse
 import com.example.project_movies_2021.domain.model.ResultMapper
 import com.example.project_movies_2021.domain.usecase.MoviesPopularUseCase
 import io.reactivex.Scheduler
@@ -20,8 +21,8 @@ class MainViewModel(
     private val ioScheduler: Scheduler
 ) : ViewModel() {
 
-    private val _popularMovies = MutableLiveData<ApiResponse<List<ResultMapper>>>()
-    val popularMovies: LiveData<ApiResponse<List<ResultMapper>>> get() = _popularMovies
+    private val _popularMovies = MutableLiveData<ApiResponse<MoviesPopularResponse>>()
+    val popularMovies: LiveData<ApiResponse<MoviesPopularResponse>> get() = _popularMovies
 
 
     var disposable = CompositeDisposable()
@@ -37,13 +38,13 @@ class MainViewModel(
             }
             .subscribe({ response ->
                 _popularMovies.value = ApiResponse.Success(
-                    data = response.results.map { it.toResultMapper() }
+                    data = response
                 )
             }, { error ->
                 _popularMovies.value = ApiResponse.Failure(
                     errorMessage = convertErrorApi(error)
                 )
-            }).addTo(disposable)
+            })
     }
 
     fun start() {

@@ -6,5 +6,6 @@ sealed class ApiResponse<out T>{
     data class Failure(
         val errorMessage: ErrorMessage
         ) : ApiResponse<Nothing>()
-    object Loading: ApiResponse<Nothing>()
+
+    object Loading : ApiResponse<Nothing>()
 }
