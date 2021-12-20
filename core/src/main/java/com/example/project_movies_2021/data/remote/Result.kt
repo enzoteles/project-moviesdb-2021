@@ -1,6 +1,8 @@
 package com.example.project_movies_2021.data.remote
 
 import com.example.project_movies_2021.domain.model.ResultMapper
+import com.example.project_movies_2021.utils.DateTimeHelper
+import com.example.project_movies_2021.utils.toPtBrRealString
 
 data class Result(
     val adult: Boolean,
@@ -20,7 +22,11 @@ data class Result(
 ){
     fun toResultMapper() = ResultMapper(
         id = id,
+        original_language = original_language,
         title = title,
-        overview = overview
+        overview = overview,
+        release_date = DateTimeHelper.convertToDate(release_date, "yyyy-MM-dd", "dd/MM/yyyy"),
+        vote_average = "R$ "+ vote_average.toPtBrRealString()
+
     )
 }

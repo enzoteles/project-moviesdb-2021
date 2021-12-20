@@ -2,10 +2,12 @@ package com.example.project_movies_2021.presentation.ui.fragment
 
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.project_movies_2021.R
 import com.example.project_movies_2021.commons.ApiResponse
@@ -13,10 +15,11 @@ import com.example.project_movies_2021.commons.ErrorMessage
 import com.example.project_movies_2021.commons.displayedChild
 import com.example.project_movies_2021.databinding.FragmentMainBinding
 import com.example.project_movies_2021.domain.model.ResultMapper
-import com.example.project_movies_2021.presentation.component.DefaultViewHolderKotlin
-import com.example.project_movies_2021.presentation.component.DefaultViewListAdapter
+import com.example.project_movies_2021.presentation.component.adapter.DefaultViewHolderKotlin
+import com.example.project_movies_2021.presentation.component.adapter.DefaultViewListAdapter
 import com.example.project_movies_2021.presentation.ui.viewmodel.MainViewModel
 import com.example.project_movies_2021.presentation.ui.base.BaseFragment
+import com.example.project_movies_2021.utils.toConvertRealDouble
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -78,10 +81,16 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>(){
         adapter.setBindViewHolderCallback(object: DefaultViewListAdapter.OnBindViewHolder<ResultMapper> {
             override fun onBind(item: ResultMapper, holder: DefaultViewHolderKotlin) {
                 holder.mView.findViewById<TextView>(R.id.tvTitle).text = item.title
-                holder.mView.findViewById<TextView>(R.id.tvSubtitle).text = item.overview
+                holder.mView.findViewById<TextView>(R.id.tvSubtitle).text = item.vote_average
             }
         })
 
+        adapter.onItemClickListener = object : DefaultViewListAdapter.OnItemClickListener<ResultMapper> {
+            override fun onItemClick(item: ResultMapper) {
+                findNavController().navigate(MainFragmentDirections
+                    .actionMainFragmentToDetailFragment(item))
+            }
+        }
         binding?.rvMoviePopular?.adapter = adapter
 
     }
