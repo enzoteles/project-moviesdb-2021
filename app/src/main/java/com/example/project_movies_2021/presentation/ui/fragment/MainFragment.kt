@@ -84,8 +84,6 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>(){
 
         binding?.rvMoviePopular?.adapter = adapter
 
-
-
     }
 
 
