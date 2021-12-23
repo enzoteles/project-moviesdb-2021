@@ -8,12 +8,12 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.project_movies_2021.R
-import com.example.project_movies_2021.data.remote.Result
+import com.example.project_movies_2021.domain.model.ResultMapper
 
-class MoviePopularAdapter : PagingDataAdapter<Result, MoviePopularAdapter.ResultViewHolder>(DiffUtilCallBack()){
+class MoviePopularAdapter(private val onClick: OnClickListener) : PagingDataAdapter<ResultMapper, MoviePopularAdapter.ResultViewHolder>(DiffUtilCallBack()){
 
     override fun onBindViewHolder(holder: ResultViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), onClick.clickListener)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResultViewHolder {
@@ -21,26 +21,31 @@ class MoviePopularAdapter : PagingDataAdapter<Result, MoviePopularAdapter.Result
         return ResultViewHolder(inflate)
     }
 
-    class ResultViewHolder(inflate: View): RecyclerView.ViewHolder(inflate){
-        var title : TextView = inflate.findViewById(R.id.tvTitle)
-        var subtitle : TextView = inflate.findViewById(R.id.tvSubtitle)
-        fun bind(item: Result?) {
+    class ResultViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+        var title : TextView = itemView.findViewById(R.id.tvTitle)
+        var subtitle : TextView = itemView.findViewById(R.id.tvSubtitle)
+        fun bind(item: ResultMapper?, onClick: (item: ResultMapper?) -> Unit) {
             title.text = item?.title
-           subtitle.text = item?.overview
+            subtitle.text = item?.overview
+            itemView.setOnClickListener { onClick(item) }
         }
+
+
 
     }
 
-    class DiffUtilCallBack : DiffUtil.ItemCallback<Result>(){
-        override fun areItemsTheSame(oldItem: Result, newItem: Result): Boolean {
+    class DiffUtilCallBack : DiffUtil.ItemCallback<ResultMapper>(){
+        override fun areItemsTheSame(oldItem: ResultMapper, newItem: ResultMapper): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Result, newItem: Result): Boolean {
+        override fun areContentsTheSame(oldItem: ResultMapper, newItem: ResultMapper): Boolean {
             return oldItem == newItem
         }
 
     }
 }
+
+data class OnClickListener(val clickListener: (item: ResultMapper?) -> Unit)
 
 

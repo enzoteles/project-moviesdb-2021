@@ -1,11 +1,13 @@
 package com.example.project_movies_2021.presentation.ui.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.paging.PagingData
 import androidx.paging.map
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,10 +22,14 @@ import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.example.project_movies_2021.data.remote.Result
+import com.example.project_movies_2021.domain.model.ResultMapper
+import com.example.project_movies_2021.presentation.ui.adapter.OnClickListener
+private const val MOVIE_POPULAR = "MOVIE_POPULAR"
 @ExperimentalCoroutinesApi
 class MoviePopularPageFragment : BaseFragment<MoviePopularPageViewModel, MoviePopularPageFragmentBinding>() {
 
     lateinit var movieAdapter: MoviePopularAdapter
+    lateinit var fragmentStatus: String
 
     override fun getViewModel(): MoviePopularPageViewModel {
         val moviePopularVM : MoviePopularPageViewModel by viewModel()
@@ -35,16 +41,14 @@ class MoviePopularPageFragment : BaseFragment<MoviePopularPageViewModel, MoviePo
         container: ViewGroup?
     ) = MoviePopularPageFragmentBinding.inflate(inflater, container, false)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initRyclerView()
-        initViewModel()
-    }
-
     private fun initRyclerView() {
         binding!!.rvMoviePopular.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            movieAdapter = MoviePopularAdapter()
+            movieAdapter = MoviePopularAdapter(OnClickListener{ resultMapper ->
+                resultMapper?.let {
+                    findNavController().navigate(MoviePopularPageFragmentDirections.actionMoviePopularPageFragmentToDetailFragment(it))
+                }
+            })
             adapter = movieAdapter
         }
     }
@@ -76,7 +80,7 @@ class MoviePopularPageFragment : BaseFragment<MoviePopularPageViewModel, MoviePo
         }, 1000)
     }
 
-    private fun populateMovie(data: PagingData<Result>) {
+    private fun populateMovie(data: PagingData<ResultMapper>) {
         Handler().postDelayed({
             displayedChild(1, binding!!.vfListRxResult)
             movieAdapter.submitData(lifecycle, data)
@@ -97,6 +101,8 @@ class MoviePopularPageFragment : BaseFragment<MoviePopularPageViewModel, MoviePo
     override fun onStart() {
         super.onStart()
         vModel.start()
+        initViewModel()
+        initRyclerView()
     }
 }
 
