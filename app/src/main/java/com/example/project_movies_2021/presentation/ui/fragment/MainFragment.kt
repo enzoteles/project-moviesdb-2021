@@ -86,7 +86,7 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>(){
 
         adapter.onItemClickListener = object : DefaultViewListAdapter.OnItemClickListener<ResultMapper> {
             override fun onItemClick(item: ResultMapper) {
-                findNavController().navigate(MainFragmentDirections.actionMainFragmentToDetailFragment(item))
+                //findNavController().navigate(MainFragmentDirections.actionMainFragmentToDetailFragment(item))
             }
         }
         binding?.rvMoviePopular?.adapter = adapter
