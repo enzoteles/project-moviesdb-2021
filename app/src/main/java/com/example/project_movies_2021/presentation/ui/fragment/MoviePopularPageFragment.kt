@@ -53,7 +53,11 @@ class MoviePopularPageFragment : BaseFragment<MoviePopularPageViewModel, MoviePo
                 movieAdapter.submitData(lifecycle, it)
             }
         )
+    }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mDisposable.dispose()
     }
 }
 
