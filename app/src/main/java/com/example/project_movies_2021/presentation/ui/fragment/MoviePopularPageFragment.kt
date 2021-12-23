@@ -1,6 +1,7 @@
 package com.example.project_movies_2021.presentation.ui.fragment
 
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.paging.map
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.project_movies_2021.commons.ApiResponse
 import com.example.project_movies_2021.commons.ErrorMessage
+import com.example.project_movies_2021.commons.displayedChild
 import com.example.project_movies_2021.databinding.MoviePopularPageFragmentBinding
 import com.example.project_movies_2021.presentation.ui.adapter.MoviePopularAdapter
 import com.example.project_movies_2021.presentation.ui.base.BaseFragment
@@ -22,7 +24,6 @@ import com.example.project_movies_2021.data.remote.Result
 class MoviePopularPageFragment : BaseFragment<MoviePopularPageViewModel, MoviePopularPageFragmentBinding>() {
 
     lateinit var movieAdapter: MoviePopularAdapter
-    private val mDisposable = CompositeDisposable()
 
     override fun getViewModel(): MoviePopularPageViewModel {
         val moviePopularVM : MoviePopularPageViewModel by viewModel()
@@ -67,25 +68,35 @@ class MoviePopularPageFragment : BaseFragment<MoviePopularPageViewModel, MoviePo
         })
 
     }
-
     private fun showError(errorMessage: ErrorMessage) {
-        Log.i("PAGE", errorMessage.message)
+
+        Handler().postDelayed({
+            displayedChild(2, binding!!.vfListRxResult)
+            binding?.tvMovieError?.text = errorMessage.message
+        }, 1000)
     }
 
     private fun populateMovie(data: PagingData<Result>) {
+        Handler().postDelayed({
+            displayedChild(1, binding!!.vfListRxResult)
+            movieAdapter.submitData(lifecycle, data)
+        }, 1000)
 
-        Log.i("PAGE", "$data")
-
-        movieAdapter.submitData(lifecycle, data)
     }
 
     private fun showLoading() {
-        Log.i("PAGE", "loading.....")
+        displayedChild(0, binding!!.vfListRxResult)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        vModel.destroy()
         binding = null
+    }
+
+    override fun onStart() {
+        super.onStart()
+        vModel.start()
     }
 }
 
