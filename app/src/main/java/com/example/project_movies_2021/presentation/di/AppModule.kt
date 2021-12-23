@@ -7,6 +7,7 @@ import com.example.project_movies_2021.domain.usecase.MoviesPopularUseCase
 import com.example.project_movies_2021.domain.usecase.MoviesPopularUseCaseImpl
 import com.example.project_movies_2021.presentation.ui.paging.MoviesPopularSource
 import com.example.project_movies_2021.presentation.ui.viewmodel.*
+import com.example.project_movies_2021.presentation.ui.viewmodel.moviepaging.*
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -77,6 +78,12 @@ val moviesPopularModule = module {
         )
     }
 
+    single<MoviesPopularPageUseCase>{
+        MoviesPopularPageUseCaseImpl(
+            repository = get()
+        )
+    }
+
     //viewModel
     viewModel {
         MainViewModel(
@@ -92,7 +99,7 @@ val moviesPopularModule = module {
 
     viewModel {
         MoviePopularPageViewModel(
-            repository = get()
+            useCase = get()
         )
     }
 

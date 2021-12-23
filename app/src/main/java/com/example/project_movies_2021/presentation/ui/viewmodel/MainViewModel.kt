@@ -44,7 +44,7 @@ class MainViewModel(
                 _popularMovies.value = ApiResponse.Failure(
                     errorMessage = convertErrorApi(error)
                 )
-            })
+            }).addTo(disposable)
     }
 
     fun start() {

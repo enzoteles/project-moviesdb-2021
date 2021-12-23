@@ -1,21 +1,23 @@
 package com.example.project_movies_2021.presentation.ui.fragment
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.lifecycleScope
+import androidx.paging.PagingData
+import androidx.paging.map
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.project_movies_2021.R
+import com.example.project_movies_2021.commons.ApiResponse
+import com.example.project_movies_2021.commons.ErrorMessage
 import com.example.project_movies_2021.databinding.MoviePopularPageFragmentBinding
 import com.example.project_movies_2021.presentation.ui.adapter.MoviePopularAdapter
 import com.example.project_movies_2021.presentation.ui.base.BaseFragment
-import com.example.project_movies_2021.presentation.ui.viewmodel.MoviePopularPageViewModel
+import com.example.project_movies_2021.presentation.ui.viewmodel.moviepaging.MoviePopularPageViewModel
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import com.example.project_movies_2021.data.remote.Result
 @ExperimentalCoroutinesApi
 class MoviePopularPageFragment : BaseFragment<MoviePopularPageViewModel, MoviePopularPageFragmentBinding>() {
 
@@ -48,16 +50,41 @@ class MoviePopularPageFragment : BaseFragment<MoviePopularPageViewModel, MoviePo
 
 
     private fun initViewModel(){
-        mDisposable.add(
-            vModel.getPopularMoviesPage().subscribe{
-                movieAdapter.submitData(lifecycle, it)
+
+        vModel.getPopularMoviesPage()
+        vModel.popularMovies.observe(this,{ response->
+            when(response){
+                is ApiResponse.Loading->{
+                    showLoading()
+                }
+                is ApiResponse.Success->{
+                    populateMovie(response.data)
+                }
+                is ApiResponse.Failure->{
+                    showError(response.errorMessage)
+                }
             }
-        )
+        })
+
+    }
+
+    private fun showError(errorMessage: ErrorMessage) {
+        Log.i("PAGE", errorMessage.message)
+    }
+
+    private fun populateMovie(data: PagingData<Result>) {
+
+        Log.i("PAGE", "$data")
+
+        movieAdapter.submitData(lifecycle, data)
+    }
+
+    private fun showLoading() {
+        Log.i("PAGE", "loading.....")
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        mDisposable.dispose()
         binding = null
     }
 }
