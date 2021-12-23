@@ -58,6 +58,7 @@ class MoviePopularPageFragment : BaseFragment<MoviePopularPageViewModel, MoviePo
     override fun onDestroyView() {
         super.onDestroyView()
         mDisposable.dispose()
+        binding = null
     }
 }
 
